@@ -2,3 +2,4 @@ flask
 websocket-client
 requests
 gunicorn
+wsgi
