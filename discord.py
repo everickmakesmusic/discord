@@ -1,3 +1,4 @@
+from flask import Flask
 import websocket
 import json
 import time
@@ -6,7 +7,15 @@ import logging
 import getpass
 import requests
 import os
-from discord import app
+
+# Initialize Flask app
+app = Flask(__name__)
+
+# Add a health check route for Render
+@app.route('/')
+def health_check():
+    return "Bot is running", 200
+
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -192,4 +201,7 @@ def main():
         ws.close()
 
 if __name__ == "__main__":
-    main()
+    # Start the WebSocket bot
+    bot_thread = threading.Thread(target=main, daemon=True)
+    bot_thread.start()
+    app.run(debug=True)  # For local testing only; Gunicorn will handle production
