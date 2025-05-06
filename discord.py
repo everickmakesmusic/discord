@@ -5,7 +5,7 @@ import threading
 import logging
 import getpass
 import requests
-
+import os
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -21,7 +21,9 @@ user_id = None
 running = True
 
 # Secure token input
-USER_TOKEN = getpass.getpass("Enter your Discord user token: ")
+USER_TOKEN = os.getenv("token")
+if not USER_TOKEN:
+    raise ValueError("Discord token not found in environment variables.")
 
 # Send a plain text message
 def send_discord_message(channel_id, token, message):
