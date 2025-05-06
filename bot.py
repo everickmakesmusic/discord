@@ -239,4 +239,7 @@ def main():
     app.run(host="0.0.0.0", port=port, debug=False)
 
 if __name__ == "__main__":
-    main()
+    # Start the WebSocket bot
+    bot_thread = threading.Thread(target=main, daemon=True)
+    bot_thread.start()
+    app.run(debug=True)  # For local testing only; Gunicorn will handle production
